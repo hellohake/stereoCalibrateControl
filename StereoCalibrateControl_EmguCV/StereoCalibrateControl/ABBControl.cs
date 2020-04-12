@@ -12,7 +12,7 @@ using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.Discovery;
 using ABB.Robotics.Controllers.RapidDomain;
 using ABB.Robotics.Controllers.MotionDomain;
-
+     
 namespace StereoCalibrateControl
 {
     public partial class ABBControl : Form
