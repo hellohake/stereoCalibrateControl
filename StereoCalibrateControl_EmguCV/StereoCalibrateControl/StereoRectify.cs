@@ -15,7 +15,7 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Util;
 using System.IO;
 using System.Threading;
-//using OpenCvSharp;
+
 namespace StereoCalibrateControl
 {
     public partial class StereoRectify : Form
@@ -24,18 +24,16 @@ namespace StereoCalibrateControl
         public DirectoryInfo rootDir;
         public string root;
         /////标定用数据
+        public Size patternSize;               //棋盘格角点数           等待写入
+        public int SquareSize = 0;             //标定用棋盘格实际尺寸大小 
+
         public Mat srcImg = new Mat();
-        public Mat grayImg = new Mat();
-        public Size patternSize = new Size(6, 9);                        //棋盘格角点数6 * 9
-        public VectorOfPointF corners = new VectorOfPointF();            //临时存储一幅图像角点坐标
+        public Mat grayImg = new Mat();       
+        public VectorOfPointF corners = new VectorOfPointF();                           //临时存储一幅图像角点坐标
         public VectorOfVectorOfPointF left_corners_set  = new VectorOfVectorOfPointF(); //存储左相机棋盘格角点坐标
         public VectorOfVectorOfPointF right_corners_set = new VectorOfVectorOfPointF(); //存储右相机棋盘格角点坐标
         /******************还是得使用objectpoints************************/
-        public VectorOfVectorOfPoint3D32F objectpoints = new VectorOfVectorOfPoint3D32F();       //存储棋盘格角点三维空间坐标
-        public VectorOfVectorOfPoint3D32F left_objectpoints = new VectorOfVectorOfPoint3D32F();  //存储棋盘格角点三维空间坐标
-        public VectorOfVectorOfPoint3D32F right_objectpoints = new VectorOfVectorOfPoint3D32F();  //存储棋盘格角点三维空间坐标
-
-        public int SquareSize = 16;             //标定用棋盘格实际尺寸大小 16mm
+        public VectorOfVectorOfPoint3D32F objectpoints = new VectorOfVectorOfPoint3D32F();       //存储棋盘格角点三维空间坐标       
         public Mat leftCamMatrix  = new Mat(3, 3, DepthType.Cv32F, 1);       //相机内参矩阵
         public Mat rightCamMatrix = new Mat(3, 3, DepthType.Cv32F, 1);
         public Mat leftDistCoeffs = new Mat(1, 5, DepthType.Cv32F, 1);      //相机畸变向量
@@ -505,6 +503,29 @@ namespace StereoCalibrateControl
             File.Copy("CameraCalResult.yaml", filepath, true);      //copy文件
             Data.LogString = "保存成功";
         }
-        
+        /// <summary>
+        /// 设置textbox只能输入正数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void width_textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //如果输入的不是数字键，也不是回车键，Backspace键，则取消该输入
+            if(!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)13 && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            }
+        }
+        /// <summary>
+        /// 写入棋盘格参数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void wpBtn_Click(object sender, EventArgs e)
+        {
+            this.patternSize = new Size(int.Parse(this.width_textBox.Text), int.Parse(this.height_textBox.Text));
+            this.SquareSize = int.Parse(this.size_textBox.Text);
+            Data.LogString = "棋盘格参数写入成功";
+        }
     }
 }

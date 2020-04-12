@@ -57,10 +57,10 @@
             this.button8 = new System.Windows.Forms.Button();
             this.btnTip = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.wpBtn = new System.Windows.Forms.Button();
+            this.size_textBox = new System.Windows.Forms.TextBox();
+            this.height_textBox = new System.Windows.Forms.TextBox();
+            this.width_textBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -350,10 +350,10 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.button1);
-            this.groupBox4.Controls.Add(this.textBox3);
-            this.groupBox4.Controls.Add(this.textBox2);
-            this.groupBox4.Controls.Add(this.textBox1);
+            this.groupBox4.Controls.Add(this.wpBtn);
+            this.groupBox4.Controls.Add(this.size_textBox);
+            this.groupBox4.Controls.Add(this.height_textBox);
+            this.groupBox4.Controls.Add(this.width_textBox);
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.label2);
@@ -364,42 +364,49 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "标定板参数设置";
             // 
-            // button1
+            // wpBtn
             // 
-            this.button1.Location = new System.Drawing.Point(336, 26);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 6;
-            this.button1.TabStop = false;
-            this.button1.Text = "写入";
-            this.button1.UseVisualStyleBackColor = true;
+            this.wpBtn.Location = new System.Drawing.Point(336, 26);
+            this.wpBtn.Name = "wpBtn";
+            this.wpBtn.Size = new System.Drawing.Size(75, 23);
+            this.wpBtn.TabIndex = 6;
+            this.wpBtn.TabStop = false;
+            this.wpBtn.Text = "写入";
+            this.wpBtn.UseVisualStyleBackColor = true;
+            this.wpBtn.Click += new System.EventHandler(this.wpBtn_Click);
             // 
-            // textBox3
+            // size_textBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(269, 27);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(43, 21);
-            this.textBox3.TabIndex = 5;
-            this.textBox3.TabStop = false;
-            this.textBox3.Text = "0";
+            this.size_textBox.Location = new System.Drawing.Point(269, 27);
+            this.size_textBox.MaxLength = 2;
+            this.size_textBox.Name = "size_textBox";
+            this.size_textBox.Size = new System.Drawing.Size(43, 21);
+            this.size_textBox.TabIndex = 5;
+            this.size_textBox.TabStop = false;
+            this.size_textBox.Text = "0";
+            this.size_textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.width_textBox_KeyPress);
             // 
-            // textBox2
+            // height_textBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(178, 27);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(43, 21);
-            this.textBox2.TabIndex = 4;
-            this.textBox2.TabStop = false;
-            this.textBox2.Text = "0";
+            this.height_textBox.Location = new System.Drawing.Point(178, 27);
+            this.height_textBox.MaxLength = 2;
+            this.height_textBox.Name = "height_textBox";
+            this.height_textBox.Size = new System.Drawing.Size(43, 21);
+            this.height_textBox.TabIndex = 4;
+            this.height_textBox.TabStop = false;
+            this.height_textBox.Text = "0";
+            this.height_textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.width_textBox_KeyPress);
             // 
-            // textBox1
+            // width_textBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(64, 27);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(43, 21);
-            this.textBox1.TabIndex = 3;
-            this.textBox1.TabStop = false;
-            this.textBox1.Text = "0";
+            this.width_textBox.Location = new System.Drawing.Point(64, 27);
+            this.width_textBox.MaxLength = 2;
+            this.width_textBox.Name = "width_textBox";
+            this.width_textBox.Size = new System.Drawing.Size(43, 21);
+            this.width_textBox.TabIndex = 3;
+            this.width_textBox.TabStop = false;
+            this.width_textBox.Text = "0";
+            this.width_textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.width_textBox_KeyPress);
             // 
             // label5
             // 
@@ -481,10 +488,10 @@
         private System.Windows.Forms.Button bogutBtn;
         private System.Windows.Forms.Button calRectifymapBtn;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button wpBtn;
+        private System.Windows.Forms.TextBox size_textBox;
+        private System.Windows.Forms.TextBox height_textBox;
+        private System.Windows.Forms.TextBox width_textBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
