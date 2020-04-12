@@ -90,9 +90,9 @@
     <Compile Include="ABBControl.Designer.cs">
       <DependentUpon>ABBControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="BackThread.cs" />
     <Compile Include="CameraRectify.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="GenericSingleleton.cs" />
     <Compile Include="ImageProcess.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,7 +119,6 @@
     <Compile Include="RectifyImage.Designer.cs">
       <DependentUpon>RectifyImage.cs</DependentUpon>
     </Compile>
-    <Compile Include="RobotControl.cs" />
     <Compile Include="StereoRectify.cs">
       <SubType>Form</SubType>
     </Compile>

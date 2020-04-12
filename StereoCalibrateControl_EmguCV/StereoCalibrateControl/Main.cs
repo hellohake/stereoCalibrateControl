@@ -20,20 +20,22 @@ namespace StereoCalibrateControl
     public partial class Main : Form
     {
         //定义全部变量
-        public static int CAMERA_ID = 0;
-        public System.Threading.Timer camTim;
-        public VideoCapture cap = new VideoCapture(CAMERA_ID);   //必须在这里初始化
-        public Image<Bgr, Byte> frame;
-        public Mat resizeImg = new Mat();
-        public Mat leftImg;
-        public Mat rightImg;
+        private static int CAMERA_ID = 0;
+        private System.Threading.Timer camTim;
+        private VideoCapture cap = new VideoCapture(CAMERA_ID);   //必须在这里初始化
+        private Image<Bgr, Byte> frame;
+        private Mat resizeImg = new Mat();
+        private Mat leftImg;
+        private Mat rightImg;
         //定义标志位
-        public bool CAMERA_OPEN  = false;
+        private bool CAMERA_OPEN  = false;
 
-        //定义各个窗体变量
-        public bool isExistFormConfig = false;
-        public Log logwin;
-        public ImageProcess imageProcessDialog;
+        //定义各个窗体变量        
+        private Log logForm;
+        private ImageProcess imgProForm;
+        private StereoRectify srForm;
+        private _3DMeasure _3DForm;
+        private ABBControl abbForm;
         public Main()
         {
             InitializeComponent();
@@ -42,10 +44,7 @@ namespace StereoCalibrateControl
         private void Main_Load(object sender, EventArgs e)
         {
             this.toolStripStatusLabel1.Alignment = ToolStripItemAlignment.Right;
-            this.cap.Stop();
-            //打开LogView窗体
-            Log log = new Log();
-            log.Show();
+            this.cap.Stop();            
         }
         /// <summary>
         /// 使用线程定时器
@@ -119,7 +118,7 @@ namespace StereoCalibrateControl
             CAMERA_OPEN = false;     
             Data.CAMERA_OPEN = false;
             Data.LogString = "camera capture pause...";
-            cap.Pause();               //暂停抓图线程
+            cap.Pause();                //暂停抓图线程
             camTim.Change(-1, 50);      //停止定时器
         }
         /// <summary>
@@ -127,10 +126,10 @@ namespace StereoCalibrateControl
         /// </summary>        
         private void 图像处理ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //先判断窗体是否存在  再进行创建
+            //打开窗体
             Data.LogString = "Open ImageProcess Dialog...";
-            imageProcessDialog = new ImageProcess();
-            imageProcessDialog.Show();
+            imgProForm = GenericSingleleton<ImageProcess>.CreateInstance();
+            imgProForm.Show();
         }
         /// <summary>
         /// 打开立体视觉标定对话框
@@ -139,9 +138,10 @@ namespace StereoCalibrateControl
         /// <param name="e"></param>
         private void 立体视觉标定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StereoRectify stereoRectifyDialog = new StereoRectify();
+            //打开窗体
             Data.LogString = "Open StereoRectify Dialog...";
-            stereoRectifyDialog.Show();
+            srForm = GenericSingleleton<StereoRectify>.CreateInstance();
+            srForm.Show();
         }
         /// <summary>
         /// 打开三维测量对话框
@@ -149,10 +149,10 @@ namespace StereoCalibrateControl
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void 三维测量ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _3DMeasure _3DMeasureDialog = new _3DMeasure();
+        {            
             Data.LogString = "Open 3D measure Dialog...";
-            _3DMeasureDialog.Show();
+            _3DForm = GenericSingleleton<_3DMeasure>.CreateInstance();
+            _3DForm.Show();
         }
         /// <summary>
         /// 打开ABB机器人运动控制对话框
@@ -160,10 +160,10 @@ namespace StereoCalibrateControl
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void aBB机器人运动控制ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ABBControl aBBControlDialog = new ABBControl();
+        {            
             Data.LogString = "Open ABBRobotControl Dialog...";
-            aBBControlDialog.Show();
+            abbForm = GenericSingleleton<ABBControl>.CreateInstance();
+            abbForm.Show();
         }
         /// <summary>
         /// 打开 日志窗口
@@ -173,8 +173,8 @@ namespace StereoCalibrateControl
         private void logToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.LogString = "Open LogView Dialog...";
-            logwin = new Log();
-            logwin.Show();
+            logForm = GenericSingleleton<Log>.CreateInstance();
+            logForm.Show();
         }
     }
 }
