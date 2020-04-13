@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.Discovery;
 using ABB.Robotics.Controllers.RapidDomain;
 using ABB.Robotics.Controllers.MotionDomain;
-     
+using ABB.Robotics.Controllers.EventLogDomain;
+
 namespace StereoCalibrateControl
 {
     public partial class ABBControl : Form
@@ -22,11 +24,13 @@ namespace StereoCalibrateControl
         private NetworkScanner abbscanner = null;
         private NetworkWatcher abbnetworkWatcher = null;
         private ABB.Robotics.Controllers.RapidDomain.Task abbtask = null;
-
+        private EventLog abblog = null;
+        private EventLogCategory abbcat = null;
         private RobTarget gripper_Loc;          //机械抓坐标
         private RobTarget rd_p1;                //坐标点数据
         private RobTarget rd_p2;                //坐标点数据
         private RobTarget rd_p3;                //坐标点数据
+        private RobTarget rd_p4;                //坐标点数据
         private bool Timer_ON = false; 
         
         public ABBControl()
@@ -64,7 +68,7 @@ namespace StereoCalibrateControl
             //更新Table UI 控件
             this.Invoke(new EventHandler(UpdateUI), new Object[] { this, e });
             this.timer1.Start();                                            //启动定时器
-            this.comboBox2.SelectedIndex = 2;                               //设置默认选择项
+            this.comboBox2.SelectedIndex = 2;                               //设置默认选择项            
         }
         private void UpdateUI(object sender, EventArgs e)
         {
@@ -103,28 +107,44 @@ namespace StereoCalibrateControl
             if(this.connectBtn.Text == "连接")
             {
                 //字符串分割
+                if(this.controllerscomboBox.SelectedItem == null)
+                {
+                    Data.LogString = "[msg]  请选择一个控制器";
+                    return;
+                }
                 string[] controllerString = ((string)this.controllerscomboBox.SelectedItem).Split('/');
                 //找到控制器
                 ListViewItem item = this.listView1.FindItemWithText(controllerString[0]);
                 if (item.Tag != null)
                 {
-                    ControllerInfo controllerInfo = (ControllerInfo)item.Tag;
-                    if (this.abbcontroller != null)
+                    try
                     {
-                        this.abbcontroller.Logoff();
-                        this.abbcontroller.Dispose();
-                        this.abbcontroller = null;
+                        ControllerInfo controllerInfo = (ControllerInfo)item.Tag;
+                        if (this.abbcontroller != null)
+                        {
+                            this.abbcontroller.Logoff();
+                            this.abbcontroller.Dispose();
+                            this.abbcontroller = null;
+                        }
+                        this.abbcontroller = ControllerFactory.CreateFrom(controllerInfo);
+                        this.abbcontroller.Logon(UserInfo.DefaultUser);             //连接到控制器
+                        this.abbtask = this.abbcontroller.Rapid.GetTask("T_ROB1");  //初始化abbTask
+                        this.abblog = this.abbcontroller.EventLog;                  //初始化abblog
+                        this.abblog.MessageWritten += Abblog_MessageWritten;        //给abblog添加订阅事件
+                                                                                    //更新控件状态  
+                        this.connectBtn.Text = "断开连接";
+                        this.connectBtn.BackColor = Color.Green;
+                        Timer_ON = true;                                //启动定时器更新状态信息
+                        Data.LogString = "ABB 机器人控制器连接成功";
                     }
-                    this.abbcontroller = ControllerFactory.CreateFrom(controllerInfo);
-                    this.abbcontroller.Logon(UserInfo.DefaultUser);         //连接到控制器
-                    //更新控件状态
-                    this.connectBtn.Text = "断开连接";
-                    this.connectBtn.BackColor = Color.Green;
-                    Timer_ON = true;                                //启动定时器更新状态信息
-                    Data.LogString = "ABB 机器人控制器连接成功";
+                    catch (Exception exception)
+                    {
+                        Data.LogString = exception.Message;
+                    }
                 }
                 else
                 {
+                    this.abblog.MessageWritten -= Abblog_MessageWritten;        //取消订阅
                     Data.LogString = "选择的控制器无效";
                 }
             }
@@ -143,6 +163,27 @@ namespace StereoCalibrateControl
                 Data.LogString = "ABB机器人连接断开";
             }
         }
+        /// <summary>
+        /// 更新日志
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Abblog_MessageWritten(object sender, MessageWrittenEventArgs e)
+        {
+            this.Invoke(new EventHandler<MessageWrittenEventArgs>(UpdateAbblog), new Object[] { this, e });
+        }
+
+        private void UpdateAbblog(object sender, MessageWrittenEventArgs e)
+        {
+            abbcat = abblog.GetCategory(CategoryType.Common);
+            foreach (EventLogMessage emsg in abbcat.Messages)
+            {
+                this.logtextBox.AppendText(emsg.Title + "\r\n");
+            }
+            //this.logtextBox.AppendText(e.Message.ToString() + "\n");
+        }
+
+
         /// <summary>
         /// 重新扫描控制器
         /// </summary>
@@ -188,7 +229,7 @@ namespace StereoCalibrateControl
                 abbcontroller.Rapid.Start(RegainMode.Continue, ExecutionMode.Continuous, ExecutionCycle.Once);
             }
             this.cyclelabel.Text = "Once";
-            Data.LogString = "Rapid程序执行1次";
+            Data.LogString = "[msg]  operationmode: Once";
         }
         /// <summary>
         /// Rapid程序一直运行
@@ -202,7 +243,7 @@ namespace StereoCalibrateControl
                 abbcontroller.Rapid.Start(RegainMode.Continue, ExecutionMode.Continuous, ExecutionCycle.Forever);
             }
             this.cyclelabel.Text = "Forever";
-            Data.LogString = "Rapid程序一直执行";
+            Data.LogString = "[msg]  operationmode: Forever";
         }
         /// <summary>
         /// Rapid程序立刻停止
@@ -271,8 +312,7 @@ namespace StereoCalibrateControl
         private void timer1_Tick(object sender, EventArgs e)
         {
             if(Timer_ON)
-            {
-                abbtask = abbcontroller.Rapid.GetTask("T_ROB1");        //获取任务
+            {                
                 if (this.comboBox2.Text.Contains("工件坐标"))
                 {
                     gripper_Loc = abbcontroller.MotionSystem.ActiveMechanicalUnit.GetPosition(CoordinateSystemType.WorkObject);//读取当前坐标系
@@ -284,10 +324,9 @@ namespace StereoCalibrateControl
                     this.q3_label.Text = gripper_Loc.Rot.Q3.ToString();
                     this.q4_label.Text = gripper_Loc.Rot.Q4.ToString();                    
                 }
-
-
                 this.speedlabel.Text = this.abbcontroller.MotionSystem.SpeedRatio.ToString() + "%";
-
+                this.cyclelabel.Text = this.abbcontroller.Rapid.Cycle.ToString();
+                this.modelabel.Text = this.abbcontroller.OperatingMode.ToString();                                
             }
             else
             {
@@ -301,10 +340,10 @@ namespace StereoCalibrateControl
         private void motorsONBtn_Click(object sender, EventArgs e)
         {
             this.abbcontroller.State = ControllerState.MotorsOn;    //设置状态
-            this.motorsOffBtn.Enabled = true;       //互锁
+            this.motorsOffBtn.Enabled = true;                       //互锁
             this.motorsONBtn.Enabled = false;
             this.motorStatelabel.Text = "MotorsOn";
-            this.motorStatelabel.ForeColor = Color.Green;       //设置颜色
+            this.motorStatelabel.ForeColor = Color.Green;           //设置颜色
         }
         /// <summary>
         /// 机器人电机下电
@@ -320,6 +359,59 @@ namespace StereoCalibrateControl
             this.motorStatelabel.ForeColor = Color.Black;
         }
 
-        
+        private void excStartBtn_Click(object sender, EventArgs e)
+        {
+            using (Mastership mr = Mastership.Request(this.abbcontroller.Rapid))
+            {
+                this.abbcontroller.Rapid.Start();
+            }
+        }
+
+        /// <summary>
+        /// PP移至main
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ptm_Btn_Click(object sender, EventArgs e)
+        {
+            this.abbtask.ResetProgramPointer();  //重置程序指针至Main
+        }
+        /// <summary>
+        /// 读取Rapid程序至上位机
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void getBtn_Click(object sender, EventArgs e)
+        {
+            if(this.abbcontroller.State == ControllerState.MotorsOff)
+            {
+                string dir = this.abbcontroller.FileSystem.RemoteDirectory;
+                abbtask.SaveProgramToFile(dir);                 //保存程序文件至当前目录
+                StreamReader sr = new StreamReader(dir + @"\" + "MainModule.mod");
+                string proData = sr.ReadToEnd();
+                sr.Close();
+                this.textBox1.Text = proData;
+                Data.LogString = "[msg]  获取成功";
+            }
+            else
+            {
+                Data.LogString = "[msg]  请先停止机器人运动~";
+            }
+            
+        }
+        /// <summary>
+        /// 窗体关闭释放资源
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ABBControl_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.abbcontroller != null)
+            {
+                this.abbcontroller.Logoff();
+                this.abbcontroller.Dispose();
+                this.abbcontroller = null;
+            }
+        }
     }
 }
