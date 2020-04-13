@@ -71,8 +71,7 @@ namespace StereoCalibrateControl
             this.comboBox2.SelectedIndex = 2;                               //设置默认选择项            
         }
         private void UpdateUI(object sender, EventArgs e)
-        {
-            
+        {            
         }
 
         private void AbbnetworkWatcher_Lost(object sender, NetworkWatcherEventArgs e)
@@ -105,13 +104,13 @@ namespace StereoCalibrateControl
         private void connectBtn_Click(object sender, EventArgs e)
         {
             if(this.connectBtn.Text == "连接")
-            {
-                //字符串分割
+            {                
                 if(this.controllerscomboBox.SelectedItem == null)
                 {
                     Data.LogString = "[msg]  请选择一个控制器";
                     return;
                 }
+                //字符串分割
                 string[] controllerString = ((string)this.controllerscomboBox.SelectedItem).Split('/');
                 //找到控制器
                 ListViewItem item = this.listView1.FindItemWithText(controllerString[0]);
@@ -128,10 +127,12 @@ namespace StereoCalibrateControl
                         }
                         this.abbcontroller = ControllerFactory.CreateFrom(controllerInfo);
                         this.abbcontroller.Logon(UserInfo.DefaultUser);             //连接到控制器
+
                         this.abbtask = this.abbcontroller.Rapid.GetTask("T_ROB1");  //初始化abbTask
                         this.abblog = this.abbcontroller.EventLog;                  //初始化abblog
-                        this.abblog.MessageWritten += Abblog_MessageWritten;        //给abblog添加订阅事件
-                                                                                    //更新控件状态  
+                        this.logcomboBox.SelectedIndex = 0;
+                        this.abblog.MessageWritten += Abblog_MessageWritten;        //给abblog添加订阅事件                                                                                   
+
                         this.connectBtn.Text = "断开连接";
                         this.connectBtn.BackColor = Color.Green;
                         Timer_ON = true;                                //启动定时器更新状态信息
@@ -178,9 +179,10 @@ namespace StereoCalibrateControl
             abbcat = abblog.GetCategory(CategoryType.Common);
             foreach (EventLogMessage emsg in abbcat.Messages)
             {
-                this.logtextBox.AppendText(emsg.Title + "\r\n");
-            }
-            //this.logtextBox.AppendText(e.Message.ToString() + "\n");
+                //设置log输出格式
+                this.logtextBox.AppendText(string.Format("{2,-30:yyyy-MM-dd hh:mm:ss}{0,-10}{1,-40}", emsg.SequenceNumber, emsg.Title,emsg.Timestamp)
+                                                + "\r\n");
+            }           
         }
 
 
@@ -395,7 +397,7 @@ namespace StereoCalibrateControl
             }
             else
             {
-                Data.LogString = "[msg]  请先停止机器人运动~";
+                Data.LogString = "[msg]  请先停止机器人运动(电机下电)~";
             }
             
         }
@@ -412,6 +414,11 @@ namespace StereoCalibrateControl
                 this.abbcontroller.Dispose();
                 this.abbcontroller = null;
             }
+        }
+
+        private void clearLogBtn_Click(object sender, EventArgs e)
+        {
+            this.logtextBox.Text = null;
         }
     }
 }
