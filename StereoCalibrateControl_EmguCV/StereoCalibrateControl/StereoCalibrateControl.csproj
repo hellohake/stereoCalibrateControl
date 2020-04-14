@@ -90,7 +90,6 @@
     <Compile Include="ABBControl.Designer.cs">
       <DependentUpon>ABBControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="CameraRectify.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="GenericSingleleton.cs" />
     <Compile Include="ImageProcess.cs">

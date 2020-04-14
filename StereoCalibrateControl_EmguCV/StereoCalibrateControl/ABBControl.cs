@@ -226,12 +226,20 @@ namespace StereoCalibrateControl
         /// <param name="e"></param>
         private void excOnceBtn_Click(object sender, EventArgs e)
         {
-            using (Mastership mr = Mastership.Request(abbcontroller.Rapid))
+            if(this.abbcontroller.OperatingMode == ControllerOperatingMode.Auto)
             {
-                abbcontroller.Rapid.Start(RegainMode.Continue, ExecutionMode.Continuous, ExecutionCycle.Once);
+                using (Mastership mr = Mastership.Request(abbcontroller.Rapid))
+                {
+                    abbcontroller.Rapid.Start(RegainMode.Continue, ExecutionMode.Continuous, ExecutionCycle.Once);
+                }
+                this.cyclelabel.Text = "Once";
+                Data.LogString = "[msg]  operationmode: Once";
             }
-            this.cyclelabel.Text = "Once";
-            Data.LogString = "[msg]  operationmode: Once";
+            else
+            {
+                Data.LogString = "[error]  当前模式不是auto模式";
+            }
+            
         }
         /// <summary>
         /// Rapid程序一直运行
@@ -240,12 +248,19 @@ namespace StereoCalibrateControl
         /// <param name="e"></param>
         private void excForeverBtn_Click(object sender, EventArgs e)
         {
-            using (Mastership mr = Mastership.Request(abbcontroller.Rapid))
+            if (this.abbcontroller.OperatingMode == ControllerOperatingMode.Auto)
             {
-                abbcontroller.Rapid.Start(RegainMode.Continue, ExecutionMode.Continuous, ExecutionCycle.Forever);
+                using (Mastership mr = Mastership.Request(abbcontroller.Rapid))
+                {
+                    abbcontroller.Rapid.Start(RegainMode.Continue, ExecutionMode.Continuous, ExecutionCycle.Forever);
+                }
+                this.cyclelabel.Text = "Forever";
+                Data.LogString = "[msg]  operationmode: Forever";
             }
-            this.cyclelabel.Text = "Forever";
-            Data.LogString = "[msg]  operationmode: Forever";
+            else
+            {
+                Data.LogString = "[error]  当前模式不是auto模式";
+            }            
         }
         /// <summary>
         /// Rapid程序立刻停止
@@ -271,18 +286,19 @@ namespace StereoCalibrateControl
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void readPointsBtn_Click(object sender, EventArgs e)
-        {
-            abbtask = abbcontroller.Rapid.GetTask("T_ROB1");        //获取任务
+        {            
             if(abbtask == null)
             {
+                Data.LogString = "[error] abbtask is null";
                 return;
             }
             //获得RobTarget数据
             rd_p1 = (RobTarget)abbtask.GetRapidData("MainModule", "p1").Value;
             rd_p2 = (RobTarget)abbtask.GetRapidData("MainModule", "p2").Value;
-            rd_p3 = (RobTarget)abbtask.GetRapidData("MainModule", "p3").Value;            
-            string[] rd_p_strings = new string[] { rd_p1.ToString(), rd_p2.ToString(), rd_p3.ToString() };
-            string[] points = new string[] { "p1", "p2", "p3" };
+            rd_p3 = (RobTarget)abbtask.GetRapidData("MainModule", "p3").Value;
+            rd_p4 = (RobTarget)abbtask.GetRapidData("MainModule", "p3").Value;
+            string[] rd_p_strings = new string[] { rd_p1.ToString(), rd_p2.ToString(), rd_p3.ToString(),rd_p4.ToString()};
+            string[] points = new string[] { "p1", "p2", "p3" ,"p4"};
             ListViewItem item = null;
             this.pointslistView.BeginUpdate();
             for (int i = 0; i < points.Length;i++)
@@ -376,7 +392,10 @@ namespace StereoCalibrateControl
         /// <param name="e"></param>
         private void ptm_Btn_Click(object sender, EventArgs e)
         {
-            this.abbtask.ResetProgramPointer();  //重置程序指针至Main
+            using (Mastership mr = Mastership.Request(this.abbcontroller.Rapid))
+            {
+                this.abbtask.ResetProgramPointer();  //重置程序指针至Main
+            }
         }
         /// <summary>
         /// 读取Rapid程序至上位机

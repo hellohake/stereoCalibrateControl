@@ -314,10 +314,10 @@
             this.tabControl2.Controls.Add(this.tabPage5);
             this.tabControl2.Controls.Add(this.tabPage6);
             this.tabControl2.Controls.Add(this.tabPage7);
-            this.tabControl2.Location = new System.Drawing.Point(34, 256);
+            this.tabControl2.Location = new System.Drawing.Point(20, 256);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(609, 160);
+            this.tabControl2.Size = new System.Drawing.Size(616, 160);
             this.tabControl2.TabIndex = 7;
             // 
             // tabPage5
@@ -328,7 +328,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(601, 134);
+            this.tabPage5.Size = new System.Drawing.Size(608, 134);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "任务控制";
             this.tabPage5.UseVisualStyleBackColor = true;

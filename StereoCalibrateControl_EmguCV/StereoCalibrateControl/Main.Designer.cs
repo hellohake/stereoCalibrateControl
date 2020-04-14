@@ -178,6 +178,7 @@
             // logToolStripMenuItem
             // 
             this.logToolStripMenuItem.Font = new System.Drawing.Font("Times New Roman", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.logToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Desktop;
             this.logToolStripMenuItem.Name = "logToolStripMenuItem";
             this.logToolStripMenuItem.Size = new System.Drawing.Size(42, 24);
             this.logToolStripMenuItem.Text = "Log";
