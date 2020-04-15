@@ -31,6 +31,8 @@ namespace StereoCalibrateControl
         private RobTarget rd_p2;                //坐标点数据
         private RobTarget rd_p3;                //坐标点数据
         private RobTarget rd_p4;                //坐标点数据
+        private RapidDataType rdt;              //Rapid Data描述符
+        private UserDefined pointData;      
         private bool Timer_ON = false; 
         
         public ABBControl()
@@ -68,7 +70,7 @@ namespace StereoCalibrateControl
             //更新Table UI 控件
             this.Invoke(new EventHandler(UpdateUI), new Object[] { this, e });
             this.timer1.Start();                                            //启动定时器
-            this.comboBox2.SelectedIndex = 2;                               //设置默认选择项            
+            this.comboBox2.SelectedIndex = 0;                               //设置默认选择项            
         }
         private void UpdateUI(object sender, EventArgs e)
         {            
@@ -296,7 +298,7 @@ namespace StereoCalibrateControl
             rd_p1 = (RobTarget)abbtask.GetRapidData("MainModule", "p1").Value;
             rd_p2 = (RobTarget)abbtask.GetRapidData("MainModule", "p2").Value;
             rd_p3 = (RobTarget)abbtask.GetRapidData("MainModule", "p3").Value;
-            rd_p4 = (RobTarget)abbtask.GetRapidData("MainModule", "p3").Value;
+            rd_p4 = (RobTarget)abbtask.GetRapidData("MainModule", "p4").Value;
             string[] rd_p_strings = new string[] { rd_p1.ToString(), rd_p2.ToString(), rd_p3.ToString(),rd_p4.ToString()};
             string[] points = new string[] { "p1", "p2", "p3" ,"p4"};
             ListViewItem item = null;
@@ -333,18 +335,45 @@ namespace StereoCalibrateControl
             {                
                 if (this.comboBox2.Text.Contains("工件坐标"))
                 {
-                    gripper_Loc = abbcontroller.MotionSystem.ActiveMechanicalUnit.GetPosition(CoordinateSystemType.WorkObject);//读取当前坐标系
-                    this.x_label.Text = gripper_Loc.Trans.X.ToString();
-                    this.y_label.Text = gripper_Loc.Trans.Y.ToString();
-                    this.z_label.Text = gripper_Loc.Trans.Z.ToString();
-                    this.q1_label.Text = gripper_Loc.Rot.Q1.ToString();
-                    this.q2_label.Text = gripper_Loc.Rot.Q2.ToString();
-                    this.q3_label.Text = gripper_Loc.Rot.Q3.ToString();
-                    this.q4_label.Text = gripper_Loc.Rot.Q4.ToString();                    
+
+                    gripper_Loc = abbcontroller.MotionSystem.ActiveMechanicalUnit.GetPosition(CoordinateSystemType.WorkObject);//读取当前坐标系                                    
                 }
+                else if (this.comboBox2.Text.Contains("基坐标"))
+                {
+                    gripper_Loc = abbcontroller.MotionSystem.ActiveMechanicalUnit.GetPosition(CoordinateSystemType.Base);//读取当前坐标系                    
+                }
+                else if (this.comboBox2.Text.Contains("世界坐标"))
+                {
+                    gripper_Loc = abbcontroller.MotionSystem.ActiveMechanicalUnit.GetPosition(CoordinateSystemType.World);//读取当前坐标系                    
+                }                
+                this.x_label.Text = gripper_Loc.Trans.X.ToString();
+                this.y_label.Text = gripper_Loc.Trans.Y.ToString();
+                this.z_label.Text = gripper_Loc.Trans.Z.ToString();
+                this.q1_label.Text = gripper_Loc.Rot.Q1.ToString();
+                this.q2_label.Text = gripper_Loc.Rot.Q2.ToString();
+                this.q3_label.Text = gripper_Loc.Rot.Q3.ToString();
+                this.q4_label.Text = gripper_Loc.Rot.Q4.ToString();
+
                 this.speedlabel.Text = this.abbcontroller.MotionSystem.SpeedRatio.ToString() + "%";
                 this.cyclelabel.Text = this.abbcontroller.Rapid.Cycle.ToString();
-                this.modelabel.Text = this.abbcontroller.OperatingMode.ToString();                                
+                this.modelabel.Text = this.abbcontroller.OperatingMode.ToString();
+                this.motorStatelabel.Text = this.abbcontroller.State.ToString();
+                if(this.motorStatelabel.Text == "MotorsOn")
+                {
+                    this.motorStatelabel.ForeColor = Color.Green;
+                }
+                else
+                {
+                    this.motorStatelabel.ForeColor = Color.Red;
+                }                
+                if(this.modelabel.Text == "Auto")
+                {
+                    this.modelabel.ForeColor = Color.Green;
+                }
+                else
+                {
+                    this.modelabel.ForeColor = Color.Red;
+                }
             }
             else
             {
@@ -438,6 +467,69 @@ namespace StereoCalibrateControl
         private void clearLogBtn_Click(object sender, EventArgs e)
         {
             this.logtextBox.Text = null;
+        }
+        /// <summary>
+        /// 写入P1坐标点至控制器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_p1_Click(object sender, EventArgs e)
+        {
+            using (Mastership mr = Mastership.Request(this.abbcontroller.Rapid))
+            {
+                rdt = this.abbcontroller.Rapid.GetRapidDataType("T_ROB1", "MainModule", "P1");
+                pointData = new UserDefined(rdt);
+                pointData.Components[0].FillFromString(this.textBox_p1.Text);
+                pointData.Components[1].FillFromString("[0.597215,0.394915,0.695659,-0.0586001]");
+                pointData.Components[2].FillFromString("[-1,-1,0,0]");
+                pointData.Components[3].FillFromString("[9e+9,9e+9,9e+9,9e+9,9e+9,9e+9]");
+                this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "p1").Value = pointData;
+            }
+            Data.LogString = "写入执行完毕~";
+            //rd_p1 = (RobTarget)this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "p1").Value;            
+        }
+        /// <summary>
+        /// 写入P2坐标点至控制器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_p2_Click(object sender, EventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// 写入P3坐标点至控制器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_p3_Click(object sender, EventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// 写入P4坐标点至控制器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_p4_Click(object sender, EventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// 窗体是否始终置顶
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(this.checkBox1.Checked)
+            {
+                this.TopMost = true;
+            }
+            else
+            {
+                this.TopMost = false;
+            }
         }
     }
 }

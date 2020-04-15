@@ -66,6 +66,10 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.imageBox2 = new Emgu.CV.UI.ImageBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.groupBox5.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -77,6 +81,10 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.textBox5);
+            this.groupBox5.Controls.Add(this.textBox4);
+            this.groupBox5.Controls.Add(this.label13);
+            this.groupBox5.Controls.Add(this.label11);
             this.groupBox5.Controls.Add(this.button2);
             this.groupBox5.Controls.Add(this.panel2);
             this.groupBox5.Controls.Add(this.button4);
@@ -93,7 +101,7 @@
             this.groupBox5.ForeColor = System.Drawing.SystemColors.Highlight;
             this.groupBox5.Location = new System.Drawing.Point(12, 288);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(672, 194);
+            this.groupBox5.Size = new System.Drawing.Size(686, 194);
             this.groupBox5.TabIndex = 18;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "立体视觉测量";
@@ -222,7 +230,7 @@
             // 
             this.button4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button4.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.button4.Location = new System.Drawing.Point(6, 143);
+            this.button4.Location = new System.Drawing.Point(7, 131);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(106, 28);
             this.button4.TabIndex = 34;
@@ -234,9 +242,9 @@
             // 
             this.closeBtn.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.closeBtn.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.closeBtn.Location = new System.Drawing.Point(561, 20);
+            this.closeBtn.Location = new System.Drawing.Point(638, 20);
             this.closeBtn.Name = "closeBtn";
-            this.closeBtn.Size = new System.Drawing.Size(58, 28);
+            this.closeBtn.Size = new System.Drawing.Size(42, 28);
             this.closeBtn.TabIndex = 33;
             this.closeBtn.TabStop = false;
             this.closeBtn.Text = "关闭";
@@ -247,9 +255,9 @@
             // 
             this.pauseBtn.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.pauseBtn.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.pauseBtn.Location = new System.Drawing.Point(480, 20);
+            this.pauseBtn.Location = new System.Drawing.Point(593, 20);
             this.pauseBtn.Name = "pauseBtn";
-            this.pauseBtn.Size = new System.Drawing.Size(73, 28);
+            this.pauseBtn.Size = new System.Drawing.Size(42, 28);
             this.pauseBtn.TabIndex = 32;
             this.pauseBtn.TabStop = false;
             this.pauseBtn.Text = "暂停";
@@ -260,7 +268,7 @@
             // 
             this.button1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.button1.Location = new System.Drawing.Point(6, 61);
+            this.button1.Location = new System.Drawing.Point(6, 66);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(106, 28);
             this.button1.TabIndex = 31;
@@ -280,7 +288,7 @@
             this.panel1.Controls.Add(this.p1textBox);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(118, 61);
+            this.panel1.Location = new System.Drawing.Point(119, 66);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(208, 110);
             this.panel1.TabIndex = 29;
@@ -380,9 +388,9 @@
             // 
             this.calCornersBtn.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.calCornersBtn.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.calCornersBtn.Location = new System.Drawing.Point(361, 20);
+            this.calCornersBtn.Location = new System.Drawing.Point(505, 20);
             this.calCornersBtn.Name = "calCornersBtn";
-            this.calCornersBtn.Size = new System.Drawing.Size(106, 28);
+            this.calCornersBtn.Size = new System.Drawing.Size(87, 28);
             this.calCornersBtn.TabIndex = 28;
             this.calCornersBtn.TabStop = false;
             this.calCornersBtn.Text = "计算显示角点";
@@ -393,9 +401,9 @@
             // 
             this.drawContoursBtn.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.drawContoursBtn.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.drawContoursBtn.Location = new System.Drawing.Point(249, 20);
+            this.drawContoursBtn.Location = new System.Drawing.Point(410, 20);
             this.drawContoursBtn.Name = "drawContoursBtn";
-            this.drawContoursBtn.Size = new System.Drawing.Size(106, 28);
+            this.drawContoursBtn.Size = new System.Drawing.Size(89, 28);
             this.drawContoursBtn.TabIndex = 27;
             this.drawContoursBtn.TabStop = false;
             this.drawContoursBtn.Text = "计算显示轮廓";
@@ -406,12 +414,12 @@
             // 
             this.sgbmBtn.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.sgbmBtn.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.sgbmBtn.Location = new System.Drawing.Point(118, 20);
+            this.sgbmBtn.Location = new System.Drawing.Point(361, 114);
             this.sgbmBtn.Name = "sgbmBtn";
-            this.sgbmBtn.Size = new System.Drawing.Size(106, 28);
+            this.sgbmBtn.Size = new System.Drawing.Size(92, 28);
             this.sgbmBtn.TabIndex = 25;
             this.sgbmBtn.TabStop = false;
-            this.sgbmBtn.Text = "SGBM算法视差图";
+            this.sgbmBtn.Text = "SGBM视差图";
             this.sgbmBtn.UseVisualStyleBackColor = true;
             this.sgbmBtn.Click += new System.EventHandler(this.sgbmBtn_Click);
             // 
@@ -419,12 +427,12 @@
             // 
             this.bmBtn.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.bmBtn.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.bmBtn.Location = new System.Drawing.Point(6, 20);
+            this.bmBtn.Location = new System.Drawing.Point(278, 20);
             this.bmBtn.Name = "bmBtn";
-            this.bmBtn.Size = new System.Drawing.Size(106, 28);
+            this.bmBtn.Size = new System.Drawing.Size(72, 28);
             this.bmBtn.TabIndex = 24;
             this.bmBtn.TabStop = false;
-            this.bmBtn.Text = "BM算法视差图";
+            this.bmBtn.Text = "BM视差图";
             this.bmBtn.UseVisualStyleBackColor = true;
             this.bmBtn.Click += new System.EventHandler(this.bmBtn_Click);
             // 
@@ -432,7 +440,7 @@
             // 
             this._3DcalBtn.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this._3DcalBtn.ForeColor = System.Drawing.SystemColors.WindowText;
-            this._3DcalBtn.Location = new System.Drawing.Point(6, 102);
+            this._3DcalBtn.Location = new System.Drawing.Point(7, 100);
             this._3DcalBtn.Name = "_3DcalBtn";
             this._3DcalBtn.Size = new System.Drawing.Size(106, 28);
             this._3DcalBtn.TabIndex = 5;
@@ -456,7 +464,7 @@
             // imageBox1
             // 
             this.imageBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageBox1.Location = new System.Drawing.Point(6, 20);
+            this.imageBox1.Location = new System.Drawing.Point(10, 20);
             this.imageBox1.Name = "imageBox1";
             this.imageBox1.Size = new System.Drawing.Size(320, 240);
             this.imageBox1.TabIndex = 2;
@@ -477,7 +485,7 @@
             // imageBox2
             // 
             this.imageBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageBox2.Location = new System.Drawing.Point(6, 20);
+            this.imageBox2.Location = new System.Drawing.Point(10, 20);
             this.imageBox2.Name = "imageBox2";
             this.imageBox2.Size = new System.Drawing.Size(320, 240);
             this.imageBox2.TabIndex = 2;
@@ -486,6 +494,42 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label11.Location = new System.Drawing.Point(6, 28);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(107, 12);
+            this.label11.TabIndex = 36;
+            this.label11.Text = "NumOfDisparities:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label13.Location = new System.Drawing.Point(162, 28);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(65, 12);
+            this.label13.TabIndex = 37;
+            this.label13.Text = "BlockSize:";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(117, 24);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(39, 21);
+            this.textBox4.TabIndex = 3;
+            this.textBox4.Text = "0";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(233, 24);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(39, 21);
+            this.textBox5.TabIndex = 4;
+            this.textBox5.Text = "0";
             // 
             // _3DMeasure
             // 
@@ -502,6 +546,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this._3DMeasure_FormClosing);
             this.Load += new System.EventHandler(this._3DMeasure_Load);
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -528,7 +573,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button sgbmBtn;
         private System.Windows.Forms.Button bmBtn;
         private Emgu.CV.UI.ImageBox imageBox1;
         private System.Windows.Forms.Button calCornersBtn;
@@ -538,7 +582,6 @@
         private Emgu.CV.UI.ImageBox imageBox2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button pauseBtn;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button closeBtn;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel2;
@@ -552,5 +595,11 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button sgbmBtn;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox4;
     }
 }

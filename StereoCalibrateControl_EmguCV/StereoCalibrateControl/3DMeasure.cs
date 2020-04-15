@@ -25,29 +25,29 @@ namespace StereoCalibrateControl
     {
         //定义变量
         //public OpenCvSharp.StereoBM bm;
-        public StereoBM bm;
-        public StereoSGBM sgbm;
-        public Emgu.CV.Mat lsrc = new Emgu.CV.Mat();
-        public Emgu.CV.Mat rsrc = new Emgu.CV.Mat();
-        public Emgu.CV.Mat distImg = new Emgu.CV.Mat();
-        public Emgu.CV.Mat distImg8U;
+        private StereoBM bm;
+        private StereoSGBM sgbm;
+        private Emgu.CV.Mat lsrc = new Emgu.CV.Mat();
+        private Emgu.CV.Mat rsrc = new Emgu.CV.Mat();
+        private Emgu.CV.Mat distImg = new Emgu.CV.Mat();
+        private Emgu.CV.Mat distImg8U;
         //Contours
-        public System.Threading.Timer contoursTimer;
-        public Mat contoursImg = new Mat(240, 320, DepthType.Cv8U, 3);
-        public Mat leftsrc = new Mat();
-        public Mat grayImg = new Mat();
-        public Mat cannyImg = new Mat();
-        public VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint();
-        public VectorOfRect hierarchy = new VectorOfRect();
+        private System.Threading.Timer contoursTimer;
+        private Mat contoursImg = new Mat(240, 320, DepthType.Cv8U, 3);
+        private Mat leftsrc = new Mat();
+        private Mat grayImg = new Mat();
+        private Mat cannyImg = new Mat();
+        private VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint();
+        private VectorOfRect hierarchy = new VectorOfRect();
         //Corners
-        public System.Threading.Timer cornerCalTimer;
-        public GFTTDetector gFTT;                       //Shi-Tomasi角点检测
-        public Mat leftsrc2 = new Mat();
-        public Mat grayImg2 = new Mat();
-        public MKeyPoint[] cornerPoints;                //存储检测角点
+        private System.Threading.Timer cornerCalTimer;
+        private GFTTDetector gFTT;                       //Shi-Tomasi角点检测
+        private Mat leftsrc2 = new Mat();
+        private Mat grayImg2 = new Mat();
+        private MKeyPoint[] cornerPoints;                //存储检测角点
         //Timer
-        public System.Threading.Timer BMdispTimer;
-        public System.Threading.Timer SGBMdispTimer;
+        private System.Threading.Timer BMdispTimer;
+        private System.Threading.Timer SGBMdispTimer;
         //计算顶点的三维坐标
         private bool CalCoordinate_Flag = false;
         private MCvPoint3D32f[] objXYZ = new MCvPoint3D32f[4];
