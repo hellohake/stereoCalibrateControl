@@ -383,7 +383,7 @@
             this.size_textBox.Size = new System.Drawing.Size(43, 21);
             this.size_textBox.TabIndex = 5;
             this.size_textBox.TabStop = false;
-            this.size_textBox.Text = "0";
+            this.size_textBox.Text = "16";
             this.size_textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.width_textBox_KeyPress);
             // 
             // height_textBox
@@ -394,7 +394,7 @@
             this.height_textBox.Size = new System.Drawing.Size(43, 21);
             this.height_textBox.TabIndex = 4;
             this.height_textBox.TabStop = false;
-            this.height_textBox.Text = "0";
+            this.height_textBox.Text = "9";
             this.height_textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.width_textBox_KeyPress);
             // 
             // width_textBox
@@ -405,7 +405,7 @@
             this.width_textBox.Size = new System.Drawing.Size(43, 21);
             this.width_textBox.TabIndex = 3;
             this.width_textBox.TabStop = false;
-            this.width_textBox.Text = "0";
+            this.width_textBox.Text = "6";
             this.width_textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.width_textBox_KeyPress);
             // 
             // label5

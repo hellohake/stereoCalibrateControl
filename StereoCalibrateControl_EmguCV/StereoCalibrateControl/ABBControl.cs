@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;                   //使用Debug
 
 using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.Discovery;
@@ -20,19 +21,19 @@ namespace StereoCalibrateControl
     public partial class ABBControl : Form
     {
         //定义变量
-        private Controller abbcontroller = null;
+        private Controller     abbcontroller = null;
         private NetworkScanner abbscanner = null;
         private NetworkWatcher abbnetworkWatcher = null;
         private ABB.Robotics.Controllers.RapidDomain.Task abbtask = null;
-        private EventLog abblog = null;
+        private ABB.Robotics.Controllers.EventLogDomain.EventLog abblog = null;
         private EventLogCategory abbcat = null;
-        private RobTarget gripper_Loc;          //机械抓坐标
+        private RobTarget gripper_Loc;          //TCP坐标
+        private RapidData speedData;
         private RobTarget rd_p1;                //坐标点数据
         private RobTarget rd_p2;                //坐标点数据
         private RobTarget rd_p3;                //坐标点数据
         private RobTarget rd_p4;                //坐标点数据
-        private RapidDataType rdt;              //Rapid Data描述符
-        private UserDefined pointData;      
+              
         private bool Timer_ON = false; 
         
         public ABBControl()
@@ -70,9 +71,11 @@ namespace StereoCalibrateControl
             //更新Table UI 控件
             this.Invoke(new EventHandler(UpdateUI), new Object[] { this, e });
             this.timer1.Start();                                            //启动定时器
-            this.comboBox2.SelectedIndex = 0;                               //设置默认选择项            
+            //设置combox默认选择项
+            this.comboBox2.SelectedIndex = 0;                               
+            this.speed_comboBox.SelectedIndex = 1;
         }
-        private void UpdateUI(object sender, EventArgs e)
+        private void UpdateUI(object sender, EventArgs e)   
         {            
         }
 
@@ -182,8 +185,8 @@ namespace StereoCalibrateControl
             foreach (EventLogMessage emsg in abbcat.Messages)
             {
                 //设置log输出格式
-                this.logtextBox.AppendText(string.Format("{2,-30:yyyy-MM-dd hh:mm:ss}{0,-10}{1,-40}", emsg.SequenceNumber, emsg.Title,emsg.Timestamp)
-                                                + "\r\n");
+                //this.logtextBox.AppendText(string.Format("{2,-30:yyyy-MM-dd hh:mm:ss}{0,-10}{1,-40}", emsg.SequenceNumber, emsg.Title,emsg.Timestamp)
+                //                                + "\r\n");
             }           
         }
 
@@ -354,7 +357,10 @@ namespace StereoCalibrateControl
                 this.q3_label.Text = gripper_Loc.Rot.Q3.ToString();
                 this.q4_label.Text = gripper_Loc.Rot.Q4.ToString();
 
-                this.speedlabel.Text = this.abbcontroller.MotionSystem.SpeedRatio.ToString() + "%";
+                speedData = abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "speeddef");
+                string[] speedstr = speedData.Value.ToString().Split('[', ',', ']');    //分割字符串
+                this.speedlabel.Text = speedstr[1] + "mm/s " + this.abbcontroller.MotionSystem.SpeedRatio.ToString() + "%";
+
                 this.cyclelabel.Text = this.abbcontroller.Rapid.Cycle.ToString();
                 this.modelabel.Text = this.abbcontroller.OperatingMode.ToString();
                 this.motorStatelabel.Text = this.abbcontroller.State.ToString();
@@ -466,7 +472,7 @@ namespace StereoCalibrateControl
 
         private void clearLogBtn_Click(object sender, EventArgs e)
         {
-            this.logtextBox.Text = null;
+            //this.logtextBox.Text = null;
         }
         /// <summary>
         /// 写入P1坐标点至控制器
@@ -476,17 +482,14 @@ namespace StereoCalibrateControl
         private void button_p1_Click(object sender, EventArgs e)
         {
             using (Mastership mr = Mastership.Request(this.abbcontroller.Rapid))
-            {
-                rdt = this.abbcontroller.Rapid.GetRapidDataType("T_ROB1", "MainModule", "P1");
-                pointData = new UserDefined(rdt);
-                pointData.Components[0].FillFromString(this.textBox_p1.Text);
-                pointData.Components[1].FillFromString("[0.597215,0.394915,0.695659,-0.0586001]");
-                pointData.Components[2].FillFromString("[-1,-1,0,0]");
-                pointData.Components[3].FillFromString("[9e+9,9e+9,9e+9,9e+9,9e+9,9e+9]");
-                this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "p1").Value = pointData;
+            {                
+                //Reading Robtarget 
+                rd_p1= (RobTarget)this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "P1").Value;                
+                //Writing Robtarget
+                rd_p1.Trans.FillFromString2(this.textBox_p1.Text);
+                this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "P1").Value = rd_p1;
             }
-            Data.LogString = "写入执行完毕~";
-            //rd_p1 = (RobTarget)this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "p1").Value;            
+            Data.LogString = "[msg]  P1写入执行完毕~";                      
         }
         /// <summary>
         /// 写入P2坐标点至控制器
@@ -495,7 +498,15 @@ namespace StereoCalibrateControl
         /// <param name="e"></param>
         private void button_p2_Click(object sender, EventArgs e)
         {
-
+            using (Mastership mr = Mastership.Request(this.abbcontroller.Rapid))
+            {
+                //Reading Robtarget 
+                rd_p2 = (RobTarget)this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "P2").Value;
+                //Writing Robtarget
+                rd_p2.Trans.FillFromString2(this.textBox_p2.Text);
+                this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "P2").Value = rd_p2;
+            }
+            Data.LogString = "[msg]  P2写入执行完毕~";
         }
         /// <summary>
         /// 写入P3坐标点至控制器
@@ -504,7 +515,15 @@ namespace StereoCalibrateControl
         /// <param name="e"></param>
         private void button_p3_Click(object sender, EventArgs e)
         {
-
+            using (Mastership mr = Mastership.Request(this.abbcontroller.Rapid))
+            {
+                //Reading Robtarget 
+                rd_p3 = (RobTarget)this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "P3").Value;
+                //Writing Robtarget
+                rd_p3.Trans.FillFromString2(this.textBox_p3.Text);
+                this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "P3").Value = rd_p3;
+            }
+            Data.LogString = "[msg]  P3写入执行完毕~";
         }
         /// <summary>
         /// 写入P4坐标点至控制器
@@ -513,7 +532,15 @@ namespace StereoCalibrateControl
         /// <param name="e"></param>
         private void button_p4_Click(object sender, EventArgs e)
         {
-
+            using (Mastership mr = Mastership.Request(this.abbcontroller.Rapid))
+            {
+                //Reading Robtarget 
+                rd_p4 = (RobTarget)this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "P4").Value;
+                //Writing Robtarget
+                rd_p4.Trans.FillFromString2(this.textBox_p4.Text);
+                this.abbcontroller.Rapid.GetRapidData("T_ROB1", "MainModule", "P4").Value = rd_p4;
+            }
+            Data.LogString = "[msg]  P4写入执行完毕~";
         }
         /// <summary>
         /// 窗体是否始终置顶
@@ -531,5 +558,34 @@ namespace StereoCalibrateControl
                 this.TopMost = false;
             }
         }
+        /// <summary>
+        /// comboBox_task显示下拉框时，显示控件所有Task
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void comboBox_task_DropDown(object sender, EventArgs e)
+        {
+            ABB.Robotics.Controllers.RapidDomain.Task[] abbTasks = this.abbcontroller.Rapid.GetTasks();  //获取所有任务
+            if(this.comboBox_task.Items == null)
+            {
+                foreach (ABB.Robotics.Controllers.RapidDomain.Task task in abbTasks)
+                {
+                    this.comboBox_task.Items.Add(task.Name);
+                }
+            }            
+        }
+        private void comboBox_task_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Module[] abbmodoules = this.comboBox_task.SelectedItem
+        }
     }
 }
+
+
+//string orient = rd_p1.Rot.ToString();                                               //读取Robtarget中数据值
+//string robcof = rd_p1.Robconf.ToString();
+//string extax =rd_p1.Extax.ToString();
+//Debug.WriteLine("orient" + orient);
+//Debug.WriteLine("robcof" + robcof);
+//Debug.WriteLine("extax" + extax);
+

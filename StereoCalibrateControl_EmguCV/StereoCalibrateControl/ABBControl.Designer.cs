@@ -47,6 +47,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -58,6 +59,7 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.speed_comboBox = new System.Windows.Forms.ComboBox();
             this.label29 = new System.Windows.Forms.Label();
             this.motorsOffBtn = new System.Windows.Forms.Button();
             this.motorsONBtn = new System.Windows.Forms.Button();
@@ -77,7 +79,6 @@
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.label14 = new System.Windows.Forms.Label();
             this.button_p4 = new System.Windows.Forms.Button();
             this.button_p3 = new System.Windows.Forms.Button();
             this.button_p2 = new System.Windows.Forms.Button();
@@ -124,6 +125,12 @@
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.comboBox_routine = new System.Windows.Forms.ComboBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.comboBox_module = new System.Windows.Forms.ComboBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.comboBox_task = new System.Windows.Forms.ComboBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.changeBtn = new System.Windows.Forms.Button();
             this.getBtn = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -131,16 +138,13 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.logcomboBox = new System.Windows.Forms.ComboBox();
             this.clearLogBtn = new System.Windows.Forms.Button();
-            this.logtextBox = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -250,7 +254,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "System Name";
-            this.columnHeader2.Width = 111;
+            this.columnHeader2.Width = 113;
             // 
             // columnHeader3
             // 
@@ -270,7 +274,7 @@
             // columnHeader6
             // 
             this.columnHeader6.Text = "Virtual";
-            this.columnHeader6.Width = 59;
+            this.columnHeader6.Width = 58;
             // 
             // columnHeader7
             // 
@@ -304,6 +308,7 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.label21);
             this.panel1.Controls.Add(this.label15);
             this.panel1.Controls.Add(this.label13);
@@ -314,6 +319,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(612, 174);
             this.panel1.TabIndex = 15;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(533, 16);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(72, 16);
+            this.checkBox1.TabIndex = 9;
+            this.checkBox1.Text = "始终置顶";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label21
             // 
@@ -416,6 +432,7 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.numericUpDown1);
+            this.groupBox5.Controls.Add(this.speed_comboBox);
             this.groupBox5.Controls.Add(this.label29);
             this.groupBox5.Controls.Add(this.motorsOffBtn);
             this.groupBox5.Controls.Add(this.motorsONBtn);
@@ -428,20 +445,34 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(78, 72);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            1000,
+            this.numericUpDown1.Location = new System.Drawing.Point(80, 75);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(67, 21);
+            this.numericUpDown1.TabIndex = 4;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            100,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(58, 21);
-            this.numericUpDown1.TabIndex = 3;
+            // 
+            // speed_comboBox
+            // 
+            this.speed_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.speed_comboBox.FormattingEnabled = true;
+            this.speed_comboBox.Items.AddRange(new object[] {
+            "100mm/s",
+            "200mm/s",
+            "300mm/s",
+            "1000mm/s"});
+            this.speed_comboBox.Location = new System.Drawing.Point(8, 75);
+            this.speed_comboBox.Name = "speed_comboBox";
+            this.speed_comboBox.Size = new System.Drawing.Size(66, 20);
+            this.speed_comboBox.TabIndex = 3;
             // 
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(9, 76);
+            this.label29.Location = new System.Drawing.Point(6, 58);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(65, 12);
             this.label29.TabIndex = 2;
@@ -476,7 +507,7 @@
             this.groupBox6.Controls.Add(this.stopRightBtn);
             this.groupBox6.Controls.Add(this.excForeverBtn);
             this.groupBox6.Controls.Add(this.excOnceBtn);
-            this.groupBox6.Location = new System.Drawing.Point(179, 15);
+            this.groupBox6.Location = new System.Drawing.Point(311, 15);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(261, 105);
             this.groupBox6.TabIndex = 4;
@@ -546,18 +577,18 @@
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.button9);
-            this.groupBox7.Location = new System.Drawing.Point(454, 15);
+            this.groupBox7.Location = new System.Drawing.Point(179, 15);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(140, 105);
+            this.groupBox7.Size = new System.Drawing.Size(117, 105);
             this.groupBox7.TabIndex = 5;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "工件坐标写入";
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(12, 20);
+            this.button9.Location = new System.Drawing.Point(6, 47);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(122, 23);
+            this.button9.Size = new System.Drawing.Size(103, 23);
             this.button9.TabIndex = 2;
             this.button9.Text = "写入工件坐标";
             this.button9.UseVisualStyleBackColor = true;
@@ -577,7 +608,7 @@
             // 
             // clearBtn
             // 
-            this.clearBtn.Location = new System.Drawing.Point(530, 105);
+            this.clearBtn.Location = new System.Drawing.Point(540, 105);
             this.clearBtn.Name = "clearBtn";
             this.clearBtn.Size = new System.Drawing.Size(55, 23);
             this.clearBtn.TabIndex = 10;
@@ -587,7 +618,7 @@
             // 
             // readPointsBtn
             // 
-            this.readPointsBtn.Location = new System.Drawing.Point(426, 105);
+            this.readPointsBtn.Location = new System.Drawing.Point(432, 105);
             this.readPointsBtn.Name = "readPointsBtn";
             this.readPointsBtn.Size = new System.Drawing.Size(102, 23);
             this.readPointsBtn.TabIndex = 9;
@@ -622,7 +653,7 @@
             // 
             // tabPage7
             // 
-            this.tabPage7.Controls.Add(this.label14);
+            this.tabPage7.Controls.Add(this.richTextBox1);
             this.tabPage7.Controls.Add(this.button_p4);
             this.tabPage7.Controls.Add(this.button_p3);
             this.tabPage7.Controls.Add(this.button_p2);
@@ -642,17 +673,6 @@
             this.tabPage7.TabIndex = 2;
             this.tabPage7.Text = "手动设置点位";
             this.tabPage7.UseVisualStyleBackColor = true;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label14.Location = new System.Drawing.Point(315, 13);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(233, 48);
-            this.label14.TabIndex = 13;
-            this.label14.Text = "说明：按[x,y,z]格式输入P1、P2、P3、P4\r\n四个点空间坐标(相对于工件坐标)，点击写\r\n入，即可控制ABB机器人按照P1-P2-P3-P4\r\n-P1的" +
-    "轨迹进行运动~";
             // 
             // button_p4
             // 
@@ -784,7 +804,7 @@
             // modelabel
             // 
             this.modelabel.AutoSize = true;
-            this.modelabel.Location = new System.Drawing.Point(139, 23);
+            this.modelabel.Location = new System.Drawing.Point(121, 23);
             this.modelabel.Name = "modelabel";
             this.modelabel.Size = new System.Drawing.Size(29, 12);
             this.modelabel.TabIndex = 8;
@@ -802,11 +822,11 @@
             // speedlabel
             // 
             this.speedlabel.AutoSize = true;
-            this.speedlabel.Location = new System.Drawing.Point(139, 61);
+            this.speedlabel.Location = new System.Drawing.Point(121, 61);
             this.speedlabel.Name = "speedlabel";
-            this.speedlabel.Size = new System.Drawing.Size(29, 12);
+            this.speedlabel.Size = new System.Drawing.Size(77, 12);
             this.speedlabel.TabIndex = 6;
-            this.speedlabel.Text = "100%";
+            this.speedlabel.Text = "200mm/s 100%";
             // 
             // label27
             // 
@@ -820,7 +840,7 @@
             // motorStatelabel
             // 
             this.motorStatelabel.AutoSize = true;
-            this.motorStatelabel.Location = new System.Drawing.Point(139, 42);
+            this.motorStatelabel.Location = new System.Drawing.Point(121, 42);
             this.motorStatelabel.Name = "motorStatelabel";
             this.motorStatelabel.Size = new System.Drawing.Size(59, 12);
             this.motorStatelabel.TabIndex = 4;
@@ -1099,11 +1119,11 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.comboBox4);
+            this.tabPage3.Controls.Add(this.comboBox_routine);
             this.tabPage3.Controls.Add(this.label24);
-            this.tabPage3.Controls.Add(this.comboBox3);
+            this.tabPage3.Controls.Add(this.comboBox_module);
             this.tabPage3.Controls.Add(this.label23);
-            this.tabPage3.Controls.Add(this.comboBox1);
+            this.tabPage3.Controls.Add(this.comboBox_task);
             this.tabPage3.Controls.Add(this.label22);
             this.tabPage3.Controls.Add(this.changeBtn);
             this.tabPage3.Controls.Add(this.getBtn);
@@ -1116,6 +1136,65 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Rapid程序";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // comboBox_routine
+            // 
+            this.comboBox_routine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_routine.FormattingEnabled = true;
+            this.comboBox_routine.Location = new System.Drawing.Point(347, 394);
+            this.comboBox_routine.Name = "comboBox_routine";
+            this.comboBox_routine.Size = new System.Drawing.Size(71, 20);
+            this.comboBox_routine.TabIndex = 10;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(291, 397);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(48, 15);
+            this.label24.TabIndex = 9;
+            this.label24.Text = "Routine:";
+            // 
+            // comboBox_module
+            // 
+            this.comboBox_module.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_module.FormattingEnabled = true;
+            this.comboBox_module.Location = new System.Drawing.Point(194, 394);
+            this.comboBox_module.Name = "comboBox_module";
+            this.comboBox_module.Size = new System.Drawing.Size(80, 20);
+            this.comboBox_module.TabIndex = 8;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(145, 397);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(48, 15);
+            this.label23.TabIndex = 7;
+            this.label23.Text = "Module:";
+            // 
+            // comboBox_task
+            // 
+            this.comboBox_task.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_task.FormattingEnabled = true;
+            this.comboBox_task.Location = new System.Drawing.Point(57, 394);
+            this.comboBox_task.Name = "comboBox_task";
+            this.comboBox_task.Size = new System.Drawing.Size(69, 20);
+            this.comboBox_task.TabIndex = 6;
+            this.comboBox_task.DropDown += new System.EventHandler(this.comboBox_task_DropDown);
+            this.comboBox_task.SelectedIndexChanged += new System.EventHandler(this.comboBox_task_SelectedIndexChanged);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(21, 397);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(33, 15);
+            this.label22.TabIndex = 5;
+            this.label22.Text = "Task:";
             // 
             // changeBtn
             // 
@@ -1155,9 +1234,9 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.listView2);
             this.tabPage4.Controls.Add(this.logcomboBox);
             this.tabPage4.Controls.Add(this.clearLogBtn);
-            this.tabPage4.Controls.Add(this.logtextBox);
             this.tabPage4.Controls.Add(this.label31);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
@@ -1194,103 +1273,73 @@
             this.clearLogBtn.Name = "clearLogBtn";
             this.clearLogBtn.Size = new System.Drawing.Size(75, 23);
             this.clearLogBtn.TabIndex = 2;
+            this.clearLogBtn.TabStop = false;
             this.clearLogBtn.Text = "清除";
             this.clearLogBtn.UseVisualStyleBackColor = true;
             this.clearLogBtn.Click += new System.EventHandler(this.clearLogBtn_Click);
             // 
-            // logtextBox
-            // 
-            this.logtextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.logtextBox.Location = new System.Drawing.Point(22, 34);
-            this.logtextBox.Multiline = true;
-            this.logtextBox.Name = "logtextBox";
-            this.logtextBox.ReadOnly = true;
-            this.logtextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logtextBox.Size = new System.Drawing.Size(613, 354);
-            this.logtextBox.TabIndex = 1;
-            // 
             // label31
             // 
             this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label31.Location = new System.Drawing.Point(20, 15);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(35, 12);
+            this.label31.Size = new System.Drawing.Size(44, 15);
             this.label31.TabIndex = 0;
-            this.label31.Text = "Log：";
+            this.label31.Text = "LOG：";
             // 
             // timer1
             // 
             this.timer1.Interval = 200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // checkBox1
+            // listView2
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 466);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(72, 16);
-            this.checkBox1.TabIndex = 9;
-            this.checkBox1.Text = "始终置顶";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader10,
+            this.columnHeader11,
+            this.columnHeader12});
+            this.listView2.FullRowSelect = true;
+            this.listView2.GridLines = true;
+            this.listView2.HideSelection = false;
+            this.listView2.Location = new System.Drawing.Point(22, 33);
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(613, 355);
+            this.listView2.TabIndex = 4;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.Details;
             // 
-            // label22
+            // columnHeader10
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(21, 398);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(35, 12);
-            this.label22.TabIndex = 5;
-            this.label22.Text = "Task:";
+            this.columnHeader10.Text = "代码";
+            this.columnHeader10.Width = 74;
             // 
-            // comboBox1
+            // columnHeader11
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(57, 394);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(69, 20);
-            this.comboBox1.TabIndex = 6;
+            this.columnHeader11.Text = "标题";
+            this.columnHeader11.Width = 350;
             // 
-            // label23
+            // columnHeader12
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(153, 398);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(41, 12);
-            this.label23.TabIndex = 7;
-            this.label23.Text = "Model:";
+            this.columnHeader12.Text = "日期和时间";
+            this.columnHeader12.Width = 166;
             // 
-            // comboBox3
+            // richTextBox1
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(194, 394);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(80, 20);
-            this.comboBox3.TabIndex = 8;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(291, 398);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(53, 12);
-            this.label24.TabIndex = 9;
-            this.label24.Text = "Routine:";
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(347, 394);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(71, 20);
-            this.comboBox4.TabIndex = 10;
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.richTextBox1.Location = new System.Drawing.Point(356, 18);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(169, 87);
+            this.richTextBox1.TabIndex = 12;
+            this.richTextBox1.Text = "说明：按[x,y,z]格式输入P1、P2、P3、P4四个点空间坐标(相对于工件坐标)，点击写入，即可控制ABB机器人按照P1-P2-P3-P4-P1的轨迹进行运动" +
+    "~";
             // 
             // ABBControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(669, 486);
-            this.Controls.Add(this.checkBox1);
+            this.ClientSize = new System.Drawing.Size(669, 467);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1326,7 +1375,6 @@
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1378,7 +1426,6 @@
         private System.Windows.Forms.Button stopRightBtn;
         private System.Windows.Forms.Button excForeverBtn;
         private System.Windows.Forms.Button excOnceBtn;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.ListView pointslistView;
         private System.Windows.Forms.ColumnHeader columnHeader8;
@@ -1392,7 +1439,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Button clearLogBtn;
-        private System.Windows.Forms.TextBox logtextBox;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Button readPointsBtn;
         private System.Windows.Forms.Button clearBtn;
@@ -1431,16 +1477,22 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox comboBox_module;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox_task;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox comboBox_routine;
+        private System.Windows.Forms.ComboBox speed_comboBox;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.ColumnHeader columnHeader10;
+        private System.Windows.Forms.ColumnHeader columnHeader11;
+        private System.Windows.Forms.ColumnHeader columnHeader12;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

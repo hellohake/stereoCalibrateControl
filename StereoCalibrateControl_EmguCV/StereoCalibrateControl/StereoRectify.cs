@@ -114,11 +114,11 @@ namespace StereoCalibrateControl
                 CvInvoke.Imwrite(filename_leftImg, leftimg);
                 CvInvoke.Imwrite(filename_rightImg, rightImg);
                 //打印消息
-                Data.LogString = "采集图像成功~ ，现有：" + imgnum1.Text + "张标定图片";
+                Data.LogString = "[msg]  采集图像成功~ ，现有：" + imgnum1.Text + "张标定图片";
             }
             else
             {
-                Data.LogString = "摄像头未打开，采集图像失败~";
+                Data.LogString = "[error]  摄像头未打开，采集图像失败";
                 return;
             }
         }
@@ -136,11 +136,11 @@ namespace StereoCalibrateControl
                 File.Delete(filename_rightImg);
                 File.Delete(filename_leftImg);
                 imgnum1.Text = (int.Parse(imgnum1.Text) - 1).ToString();        //计数减1
-                Data.LogString = "删除图像成功，现有：" + imgnum1.Text + "张图片";
+                Data.LogString = "[msg]  删除图像成功，现有：" + imgnum1.Text + "张图片";
             }
             else
             {
-                Data.LogString = "图片已清空~";
+                Data.LogString = "[msg]  图片已清空";
                 return;
             }
         }
@@ -373,6 +373,7 @@ namespace StereoCalibrateControl
             //传递数据
             Data.leftROI = this.leftROI;
             Data.rightROI = this.rightROI;
+            Data.Q = this.Q;                    //备份Q!!!
             Data.LogString = "立体校正计算完毕，请进行校正映射计算~";
         }
         /// <summary>
@@ -525,7 +526,7 @@ namespace StereoCalibrateControl
         {
             this.patternSize = new Size(int.Parse(this.width_textBox.Text), int.Parse(this.height_textBox.Text));
             this.SquareSize = int.Parse(this.size_textBox.Text);
-            Data.LogString = "棋盘格参数写入成功";
+            Data.LogString = "[msg]  棋盘格参数写入成功";
         }
     }
 }

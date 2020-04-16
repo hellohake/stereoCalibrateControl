@@ -35,7 +35,7 @@ namespace StereoCalibrateControl
 {
     class Data
     {
-        public static Mat compositeImg = new Mat();
+        public static Mat compositeImg = new Mat();  //原始图像
         public static Mat rightImg = new Mat();
         public static Mat leftImg = new Mat();
         /// <summary>
